@@ -1,0 +1,72 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "User Profile",
+      "description": "Stores user fitness profile and goals",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "Firebase Auth UID" },
+        "displayName": { "type": "string" },
+        "age": { "type": "number" },
+        "weight": { "type": "number", "description": "Weight in kg" },
+        "height": { "type": "number", "description": "Height in cm" },
+        "fitnessLevel": { "type": "string", "enum": ["beginner", "intermediate", "advanced"] },
+        "goal": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "displayName"]
+    },
+    "Workout": {
+      "title": "Workout Plan",
+      "description": "A generated workout plan",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "exercises": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": { "type": "string" },
+              "sets": { "type": "number" },
+              "reps": { "type": "string" },
+              "notes": { "type": "string" }
+            }
+          }
+        },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "title", "exercises"]
+    },
+    "ActivityLog": {
+      "title": "Activity Log",
+      "description": "Daily activity tracking",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "date": { "type": "string", "format": "date" },
+        "workoutId": { "type": "string" },
+        "duration": { "type": "number", "description": "Duration in minutes" },
+        "caloriesBurned": { "type": "number" },
+        "notes": { "type": "string" }
+      },
+      "required": ["uid", "date"]
+    }
+  },
+  "firestore": {
+    "users/{userId}": {
+      "schema": "UserProfile",
+      "description": "User profile data"
+    },
+    "workouts/{workoutId}": {
+      "schema": "Workout",
+      "description": "Collection of generated workouts"
+    },
+    "logs/{logId}": {
+      "schema": "ActivityLog",
+      "description": "Daily activity logs"
+    }
+  }
+}
